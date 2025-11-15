@@ -1,0 +1,90 @@
+"use client"
+
+import { useCallback, type MouseEvent } from "react"
+import { useSidebarNav } from "./sidebar-nav"
+import { type LucideIcon } from "lucide-react"
+
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+} from "@/components/ui/sidebar"
+
+export function NavMain({
+  items,
+}: {
+  items: {
+    title: string
+    url: string
+    icon?: LucideIcon
+    isActive?: boolean
+    items?: {
+      title: string
+      url: string
+    }[]
+  }[]
+}) {
+  const { selected, setSelected } = useSidebarNav()
+
+  const handleSelect = useCallback(
+    (key: string) => (e?: MouseEvent) => {
+      e?.preventDefault()
+      if (key) setSelected(key)
+    },
+    [setSelected]
+  )
+
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>FERRAMENTAS</SidebarGroupLabel>
+
+      <SidebarMenu>
+        {items.map((item) => {
+          const hasSub = Array.isArray(item.items) && item.items.length > 0
+          // consider parent active if selected matches parent or any child
+          const childSelected = hasSub && item.items!.some((s) => s.url === selected)
+          const isActive = selected === item.url || childSelected
+
+          return (
+            <SidebarMenuItem key={item.title}>
+              {/* Main button or label (if has children we render a non-clickable label) */}
+              <SidebarMenuButton tooltip={item.title} asChild data-active={isActive}>
+                {hasSub ? (
+                  <div style={{ cursor: 'default' }}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </div>
+                ) : (
+                  <button onClick={handleSelect(item.url)}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </button>
+                )}
+              </SidebarMenuButton>
+
+              {/* Subitems */}
+              {hasSub && (
+                <SidebarMenuSub>
+                  {item.items!.map((subItem) => (
+                    <SidebarMenuSubItem key={subItem.title}>
+                      <SidebarMenuSubButton asChild data-active={selected === subItem.url}>
+                        <button onClick={handleSelect(subItem.url)}>
+                          <span>{subItem.title}</span>
+                        </button>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              )}
+            </SidebarMenuItem>
+          )
+        })}
+      </SidebarMenu>
+    </SidebarGroup>
+  )
+}
