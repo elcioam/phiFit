@@ -39,6 +39,30 @@ export function NavMain({
     [setSelected]
   )
 
+  const handleParentClick = useCallback(
+    (parentUrl: string, defaultChild?: string) => (e?: MouseEvent) => {
+      e?.preventDefault()
+      try {
+        const key = `sidebar:last:${parentUrl}`
+        const last = (typeof window !== 'undefined' && window.localStorage.getItem(key)) || defaultChild
+        if (last) setSelected(last)
+      } catch (err) {
+        if (defaultChild) setSelected(defaultChild)
+      }
+    },
+    [setSelected]
+  )
+
+  const rememberChild = useCallback((parentUrl: string, childUrl: string) => {
+    try {
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(`sidebar:last:${parentUrl}`, childUrl)
+      }
+    } catch (_) {
+      // ignore
+    }
+  }, [])
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>FERRAMENTAS</SidebarGroupLabel>
@@ -55,10 +79,10 @@ export function NavMain({
               {/* Main button or label (if has children we render a non-clickable label) */}
               <SidebarMenuButton tooltip={item.title} asChild data-active={isActive}>
                 {hasSub ? (
-                  <div style={{ cursor: 'default' }}>
+                  <button onClick={handleParentClick(item.url, item.items?.[0]?.url)}>
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
-                  </div>
+                  </button>
                 ) : (
                   <button onClick={handleSelect(item.url)}>
                     {item.icon && <item.icon />}
@@ -73,7 +97,12 @@ export function NavMain({
                   {item.items!.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild data-active={selected === subItem.url}>
-                        <button onClick={handleSelect(subItem.url)}>
+                        <button
+                          onClick={(e) => {
+                            handleSelect(subItem.url)(e)
+                            rememberChild(item.url, subItem.url)
+                          }}
+                        >
                           <span>{subItem.title}</span>
                         </button>
                       </SidebarMenuSubButton>

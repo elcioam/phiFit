@@ -57,7 +57,6 @@ const data = {
       url: "grafico",
       icon: PieChart,
       isActive: true,
-      
     },
     {
       title: "Tabelas",
@@ -78,7 +77,6 @@ const data = {
         },
       ],
     },
-    
     {
       title: "Ajuste de Curva",
       url: "ajuste",
@@ -96,22 +94,30 @@ const data = {
           title: "Ajuste 3",
           url: "ajuste/3",
         },
-
       ],
     },
   ],
- 
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        COLOCAR LOGO OU ALGO ASSIM
+        <div className="flex w-full items-center justify-center">
+          {/* Full logo (visible when sidebar is expanded) */}
+          <div className="flex flex-col items-center justify-center gap-1 py-6 group-data-[collapsible=icon]:hidden">
+            <img src="/assets/logo.svg" alt="Logo" className="h-13 w-auto" />
+            <div className="font-semibold text-sm"></div>
+          </div>
+
+          {/* Icon-only (visible when sidebar is collapsed to icon) */}
+          <div className="hidden items-center justify-center py-4 group-data-[collapsible=icon]:flex">
+            <img src="/assets/icon.svg" alt="Logo icon" className="h-6 w-auto" />
+          </div>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        
       </SidebarContent>
       <SidebarFooter>
         CEFET - MG BLABLA

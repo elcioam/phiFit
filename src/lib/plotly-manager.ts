@@ -152,6 +152,12 @@ class PlotlyManagerClass {
     return this.traces.map((t: any) => t.name)
   }
 
+  /** Return the stored trace object (as saved in manager) by name, or null */
+  getTraceObject(name: string) {
+    const t = this.traces.find((tr: any) => tr.name === name)
+    return t || null
+  }
+
   addAnnotation(name: string, text: string, x: number, y: number) {
     // remove existing annotation with same name
     this.traces = this.traces.filter((t: any) => t.name !== name)

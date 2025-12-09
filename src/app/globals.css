@@ -51,7 +51,7 @@
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
+  --primary: oklch(46.092% 0.19867 326.281);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
@@ -69,7 +69,7 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-foreground: oklch(21.154% 0.0901 344.674);
   --sidebar-primary: oklch(0.208 0.042 265.755);
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.968 0.007 247.896);
@@ -85,7 +85,7 @@
   --card-foreground: oklch(0.984 0.003 247.858);
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
+  --primary: oklch(92.635% 0.02274 321.148);
   --primary-foreground: oklch(0.208 0.042 265.755);
   --secondary: oklch(0.279 0.041 260.031);
   --secondary-foreground: oklch(0.984 0.003 247.858);
@@ -120,3 +120,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Move Plotly modebar (controls) to the left side of the plot to avoid overlap
+   with the right-hand summary panel. We target the plot container by its
+   aria-label so other plots are unaffected. */
+[aria-label="plotly-plot"] .modebar,
+[aria-label="plotly-plot"] .modebar-container {
+  right: auto !important;
+  left: 12px !important;
+}
+
+[aria-label="plotly-plot"] .modebar {
+  border-radius: 6px !important;
+  box-shadow: 0 2px 6px rgba(16,24,40,0.06) !important;
+}
+
+/* Add top spacing so the modebar doesn't overlap the plot title */
+[aria-label="plotly-plot"] .modebar-container { top: 8px !important; }
