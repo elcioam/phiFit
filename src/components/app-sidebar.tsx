@@ -120,7 +120,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        CEFET - MG BLABLA
+        CEFET - MG 2025
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

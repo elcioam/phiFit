@@ -22,8 +22,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fisfit",
+  title: "PhiFit",
   description: "",
+  icons: {
+    icon: "/iconee.png",
+    shortcut: "/iconee.png",
+  },
 };
 
 export default function RootLayout({
